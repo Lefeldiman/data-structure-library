@@ -1,35 +1,16 @@
-<h1 align=center>Data Structure Library - Estrutura de Dados e Arquivos | <a target="_blank" href="https://leontech.io" rel="nofollow">LeonTech.io</a> | <a  target="_blank" href="https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fdemo.gethugothemes.com%2Fgeeky%2F&tab=desktop">Page Speed (85%)</a></h1>
-
-<p align=center>
-  <a href="https://github.com/gohugoio/hugo/releases/tag/v0.83.1" alt="Contributors">
-    <img src="https://img.shields.io/static/v1?label=min-HUGO-version&message=0.83.1&color=f00&logo=hugo" />
-  </a>
-
-  <a href="https://github.com/gethugothemes/geeky-hugo/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/gethugothemes/geeky-hugo" alt="license"></a>
-
-  <img src="https://img.shields.io/github/languages/code-size/gethugothemes/geeky-hugo" alt="code size">
-
-  <a href="https://github.com/gethugothemes/geeky-hugo/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/gethugothemes/geeky-hugo" alt="contributors"></a>
-
-  <a href="https://twitter.com/intent/follow?screen_name=gethugothemes">
-    <img src="https://img.shields.io/twitter/follow/gethugothemes?style=social&logo=twitter"
-      alt="follow on Twitter"></a>
-</p>
+<h1 align=center>Data Structure Library - Estrutura de Dados e Arquivos | <a target="_blank" href="https://leontech.io" rel="nofollow">LeonTech.io</a> </h1>
 
 
-This is Stackbit's "Startup" theme built with [Next.js](https://nextjs.org/) and
-powered by content stored in files.
+This is an repository content source code in C.
 
-Click the button below to create a new website from this theme using Stackbit:
+Click the below to see the source code to use in yours study :
 
 <p align="center">
-  <a href="https://app.stackbit.com/create?theme=https://github.com/stackbit-themes/startup-nextjs&utm_source=theme-readme&utm_medium=referral&utm_campaign=stackbit_themes"><img alt="Create with Stackbit" src="https://assets.stackbit.com/badge/create-with-stackbit.svg"/></a>
+  <a href="https://github.com/Lefeldiman/data-structure-library/tree/master/src"><img alt="See the Code" src="https://assets.stackbit.com/badge/create-with-stackbit.svg"/></a>
 </p>
 
 [Live Site Demo](https://themes.stackbit.com/demos/startup/)
-
+ 
 <img src="https://themes.stackbit.com/images/startup-demo-1024x768.png" width="600">
 
 The theme can be used to create a static website that is hosted by a serverless
