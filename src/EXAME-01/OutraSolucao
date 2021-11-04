@@ -1,0 +1,194 @@
+//1ª Parte Questões Objetivas
+//Questão 1 - B
+//Questão 2 - D
+//Questão 3 - B
+
+//2ª Parte Questões Subjetivas
+//      Questão 1
+//Escreva uma rotina em C que receba uma matriz de inteiros, x[ ][ ], e dois 
+//inteiros n e m que indicam respectivamente o número de linhas e de colunas 
+//de x. A rotina deve criar dinamicamente e retornar a matriz transposta de x.  
+int** GeraTransposta(int **x, int n, int m) 
+{  int **pTransposta, i, j;     
+      pTransposta=(int **)malloc(m * sizeof(int *));
+      for (i=0;i<m;i++)
+      {    pTransposta[i]=(int *)malloc(n * sizeof(int)); 
+           for (j=0;j<n;j++)
+                pTransposta[i][j] = x[j][i];    
+      }          
+      return (pTransposta);
+}  
+
+//       Questão 2
+//O procedimento abaixo é iterativo. Transforme o procedimento abaixo em um procedimento RECURSIVO.
+//procedimento iterativo para Ler e Validar um inteiro não negativo
+void ProcLerValidarIter(int *N)
+{   do
+    {  printf("\nInforme um numero inteiro >= zero para N: ");
+       scanf("%d",N);
+       if(*N<0)
+                printf("ERRO !!! Numero deve ser maior ou igual a zero.\n\n");
+    } while (*N<0);    
+}
+//procedimento recursivo para Ler e Validar um inteiro não negativo
+void ProcLerValidarRec(int *N)
+{      printf("\nInforme um numero inteiro >= zero para N: ");
+       scanf("%d",N);
+       if(*N>=0)
+                return;
+       else         
+       {        printf("ERRO !!! Numero deve ser maior ou igual a zero.\n\n");
+                ProcLerValidarRec(N);
+       }        
+}
+
+//	     Questão 3 
+//A função abaixo é iterativa. Transforme a função abaixo em uma função RECURSIVA.
+//Função iterativa para Ler e Validar um inteiro entre 0 e 13
+int LerValidar()
+{    int num;	 
+     printf("Informe um numero inteiro entre 0 e 13 : ");
+     scanf("%i",&num);     
+     while((num<0)||(num>=14))
+     {     printf("ERRO ... Informe novamente! \n");
+           printf("Informe um numero inteiro entre 0 e 13 : ");       
+           scanf("%i",&num);           
+     }
+     return (num);
+}
+//Função recursiva para Ler e Validar um inteiro entre 0 e 13
+int LerValidarRec()
+{    int num;	 
+     printf("Informe um numero inteiro entre 0 e 13 : ");
+     scanf("%i",&num);     
+     if((num>=0)&&(num<14))
+           return num;
+     else
+     {     printf("ERRO ... Tente novamente! \n\n");
+           return LerValidarRec();          
+     }     
+}
+
+
+//      Questão 4  
+//Faça um programa que crie um arquivo Texto, contendo 5000 números inteiros 
+//aleatórios entre 10 e 999. Para a gravação no arquivo texto, cada linha 
+//deve conter apenas 10 valores.
+#include<stdio.h>
+int main ()
+{  FILE *f;   int z;  srand(time(NULL));   
+   f = fopen("Questao4.txt", "w");
+   for (z=1;z<=5000;z++) 
+   {    fprintf(f, "%7d", rand() % 990 + 10);
+        if(z % 10 == 0)   fprintf(f, "\n");   
+   } 
+   fclose(f);   
+   printf("Arquivo Texto 'Questao4.txt' gravado com 5000 numeros inteiros aleatorios entre 10 e 999.");
+   printf("\n\nPressione qualquer tecla para TERMINAR o programa ...  ");        
+   getch();    return 0;
+}
+
+//      Questão 5 
+typedef struct s_cel {
+   float val;
+   struct s_cel *prox;
+} cel;
+typedef cel* lista;
+//Escreva uma rotina que receba um ponteiro para uma lista encadeada simples de 
+//valores reais, cujas células têm a estrutura acima, e que retorne a quantidade 
+//de elementos da lista encadeada. 
+int QuantLista(lista L)
+{     int Quant=0;
+      while(L != NULL)
+      {      Quant++;
+             L = L->prox;
+      }
+      return  Quant;
+}
+//2ª solução usando recursividade
+int QuantElemLista(lista L)
+{      if (L == NULL)
+              return 0;
+       else   return( 1 + QuantElemLista(L->prox)) ;
+}      
+ 
+//      Questão 6 
+//Considere as definições de dados para lista encadeada da questão 5.
+//Escreva uma rotina que receba dois ponteiros para duas listas encadeadas 
+//genéricas (não ordenadas), cujas células têm a estrutura definida na questão 
+//5. A rotina deve retornar um ponteiro para outra lista encadeada, ordenada 
+//CRESCENTE, contendo todos os elementos das duas listas que foram passadas 
+//como parâmetros (incluindo elementos repetidos). 
+lista RotQ6(lista L1, lista L2)
+{     lista temp, Resul=NULL;    int i=0, quant=0, trocou=1;
+      temp = L1;
+      while(temp != NULL) //quantidade de elementos de L1
+      {      quant++;
+             temp = temp->prox;
+      }
+      temp = L2;
+      while(temp != NULL) //mais a quantidade de elementos de L2
+      {      quant++;
+             temp = temp->prox;
+      }
+      //alocação do vetor V com a quantidade de elementos das duas listas
+      float Aux, *V = (float*)malloc(quant * sizeof(float));
+      while(L1 != NULL) //copiar elementos da lista L1 para o vetor V
+      {      V[i] = L1->val;
+             L1 = L1->prox; 
+             i++;
+      }
+      while(L2 != NULL) //copiar elementos da lista L2 para o vetor V
+      {      V[i] = L2->val;
+             L2 = L2->prox; 
+             i++;
+      }
+      //Ordenação decrescente do vetor V
+      while(trocou)
+      {      trocou = 0;
+             for(i=0;i<=(quant-2);i++)
+                    if(V[i] < V[i+1]) 
+                    {   Aux=V[i];   V[i]=V[i+1];   V[i+1]=Aux;    trocou=1;  }
+      }
+      //geração da lista Resul com os elementos ordenados do vetor
+      for(i=0;i<quant;i++)
+      {    temp=(lista)malloc(sizeof(cel));
+           temp->val=V[i];   temp->prox=Resul;  //cada V[i] é inserido na 
+           Resul=temp;                          //cabeça da lista Resul 
+      }
+      return Resul;
+}
+//2ª solução usando realloc para o vetor V
+lista RotQ6ComRealloc(lista L1, lista L2)
+{     lista Resul=NULL;    int i=0, quant=0, trocou=1;
+      float Aux, *V = NULL;      
+      while(L1 != NULL) //copiar elementos da lista L1 para o vetor V
+      {      quant++;
+             V = (float*)realloc(V,quant*sizeof(float));
+             V[i] = L1->val;   
+             L1 = L1->prox; 
+             i++;
+      }
+      while(L2 != NULL) //copiar elementos da lista L2 para o vetor V
+      {      quant++;
+             V = (float*)realloc(V,quant*sizeof(float));
+             V[i] = L2->val;   
+             L2 = L2->prox; 
+             i++;
+      }
+      //Ordenação decrescente do vetor V
+      while(trocou)
+      {      trocou = 0;
+             for(i=0;i<=(quant-2);i++)
+                    if(V[i] < V[i+1]) 
+                    {   Aux=V[i];   V[i]=V[i+1];   V[i+1]=Aux;    trocou=1;  }
+      }
+      //geração da lista Resul CRESCENTE, com os elementos ordenados DECRESCENTE 
+      //do vetor V
+      for(i=0;i<quant;i++)
+      {    temp=(lista)malloc(sizeof(cel));
+           temp->val=V[i];   temp->prox=Resul;  //cada V[i] é inserido na 
+           Resul=temp;                          //cabeça da lista Resul 
+      }
+      return Resul;
+}

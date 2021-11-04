@@ -1,0 +1,31 @@
+
+void push(pilha *P, pessoa novo)
+{    cel *temp;
+     temp  = (cel*)malloc(sizeof(cel));
+     temp -> esse = novo;     
+     temp -> prox = *P;
+     *P = temp;
+}
+
+pessoa pop(pilha *P)
+{    cel *temp = *P;
+     pessoa topo = temp -> esse;  
+     *P = temp -> prox;
+     free(temp);
+     return topo;
+}
+
+pessoa top(pilha P)
+{     
+      return(P -> esse);      
+}
+
+void inicializa(pilha *P)
+{    
+       *P = NULL;            
+}
+
+int vazia(pilha P)
+{    
+       return(P == NULL);            
+}

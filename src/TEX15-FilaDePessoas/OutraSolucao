@@ -1,0 +1,45 @@
+/* Considerando a seguinte estrutura de dados com a qual 
+definimos uma fila de "pessoas":
+
+typedef struct {
+     cel *inicio, *final;
+} fila;
+
+	E as seguintes funções:
+         void enqueue(fila *F, pessoa nova); 
+         pessoa dequeue(fila *F);
+
+	Escreva uma rotina de receba uma fila de pessoas e que 
+    altere a sua ordem de forma que as mulheres venham antes 
+    dos homens, sendo que entre homens e mulheres a ordem 
+    deve ficar inalterada. Implemente a rotina utilizando 
+    somente as chamadas típicas de fila (enqueue e dequeue) 
+    sem implementa-las. Se necessário use filas temporárias. 
+    
+Rotinas auxiliares que não fazem parte do enunciado *********
+
+void inicializa(fila *F) {
+      F->inicio = NULL; F->final  = NULL;
+}
+
+int vazia(fila F) {
+     return(F.inicio == NULL);
+}
+*/
+void RotQ6P1V2(fila *F)
+{    fila FHomens, FMulheres;   //uso de duas Filas Auxiliares, para 
+                                //Homens e para Mulheres
+     pessoa Criatura;
+     inicializa(&FHomens);   inicializa(&FMulheres); 
+     while(!(vazia(*F)))  
+     {      Criatura = dequeue(F);
+            if(Criatura.sexo == 'M')
+                    enqueue(&FHomens,Criatura);
+            else    
+                    enqueue(&FMulheres,Criatura);          
+     }
+     while(!(vazia(FMulheres)))  //retorna as mulheres para a fila F
+               enqueue(F,dequeue(&FMulheres)); 
+     while(!(vazia(FHomens)))    //retorna os homens para a fila F
+               enqueue(F,dequeue(&FHomens));      
+} 

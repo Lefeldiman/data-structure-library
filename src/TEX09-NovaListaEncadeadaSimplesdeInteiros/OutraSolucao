@@ -1,0 +1,492 @@
+// Aluno : Gustavo Arthur Vollbrecht  UC13100612
+
+/*
+ Sintese:
+ -----------------------------------------------------------------------------------------------
+   Objetivo: Criar uma lista encadeada simples de inteiros,
+   			 com as funcionaldiades e seu respectivo menu ->>
+   			 
+   			- Inicializar Lista;
+			   
+			   MENU ->          
+
+		1	- Inserir no TOPO (início) da Lista;            
+
+		2	- Inserir na CAUDA (final) da Lista;            
+
+		3	- Retirar elemento do TOPO (início) da Lista;            
+
+		4	- Retirar elemento da CAUDA (final) da Lista;            
+
+		5	- Listar elementos da Lista;            
+
+		6	- Lista vazia (V ou F).
+		
+		7   - Retornar a quantidade de elementos da lista.
+		
+		8	- Retornar a média aritmética dos elementos da lista.
+		
+		9	- Retirar da lista um elemento qualquer, passado como parâmetro.
+		
+		10  - Retornar uma nova lista, ordenada crescente.
+		
+		11  - Gerar duas novas listas, com base nos elementos de uma lista.
+			  Uma com os elementos pares e outra com os ímpares da lista
+			  informada como parâmetro.
+		
+		
+
+------------------------------------------------------------------------------------------------
+   Entrada : Opção no menu e valores inteiros quando solicitados.
+------------------------------------------------------------------------------------------------
+   Saida   : Saída desejada, no menu auto-explicativo.
+------------------------------------------------------------------------------------------------
+
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+
+typedef struct ListaValoresInteiros{
+	int valor;
+	struct ListaValoresInteiros *prox;
+}Lista;
+typedef Lista* lista;
+
+void listarElementosListasParImpar(lista listaPar, lista listaImpar);
+void getListasParImpar (lista li, lista *listaPar, lista *listaImpar);
+void getListaCrescente (lista li, lista *listaOrdenada);
+int removeItemLista(lista *li, int x);
+float getMedia (lista li);
+int getQtdElementos(lista li);
+void listarElementosLista(lista li);
+void retirarElementoCaudaLista(lista *li);
+void retirarElementoTopoLista(lista *li);
+void adicionarElementoNaCauda(lista *li, int elemento);
+int isListaVazia (lista li);
+void adicionarElementoAoTopo(lista *li, int elemento);
+void inicializarLista (lista *li);
+void leValidaInt (char const *msg, int *num, int min, int max);
+void apresentaMenu();
+
+int main(void){
+	
+	lista li;
+	lista listaOrdenada;
+	lista listaPar;
+	lista listaImpar;
+	int opcao;
+	int valorADD;
+	int valorREMOVE;
+	
+	inicializarLista(&li);
+	inicializarLista(&listaOrdenada);
+	inicializarLista(&listaPar);
+	inicializarLista(&listaImpar);
+	do{
+		apresentaMenu();
+		leValidaInt("", &opcao, 1, 12);
+		switch (opcao){
+			case 1:
+				leValidaInt("Informe o valor a ser adicionado no topo da lista: ", &valorADD, 0, 99);
+				adicionarElementoAoTopo(&li, valorADD);
+				printf("Elemento adicionado com sucesso!");
+				getch();
+				system("cls");
+				break;
+			case 2:
+				leValidaInt("Informe o valor a ser adicionado na cauda da lista: ", &valorADD, 0, 99);
+				adicionarElementoNaCauda(&li, valorADD);
+				break;
+			case 3:
+				retirarElementoTopoLista(&li);
+				break;
+			case 4:				
+				retirarElementoCaudaLista(&li);	
+				break;
+			case 5:
+				listarElementosLista(li);
+				break;
+			case 6:
+				isListaVazia(li) ? printf("\nA lista esta vazia. (V)") : printf("\nA lista nao esta vazia. (F)");
+				getch();
+				system("cls");
+				break;
+			case 7:
+				system("cls");
+				printf("Quantidade de elementos: %d", getQtdElementos(li));
+				getch();
+				system("cls");
+				break;
+ 			case 8:
+ 				system("cls");
+ 				printf("Media aritmetica da lista: %.2f", getMedia(li));
+ 				getch();
+ 				system("cls");
+ 				break;
+ 			case 9:
+ 				leValidaInt("\nInforme o valor que deseja retirar da lista: ", &valorREMOVE, 0, 99);
+ 				removeItemLista(&li, valorREMOVE);
+ 				break;
+ 			case 10:
+ 				getListaCrescente(li, &listaOrdenada);
+ 				break;
+ 			case 11:
+ 				getListasParImpar (li, &listaPar, &listaImpar);
+ 				listarElementosListasParImpar(listaPar, listaImpar);
+ 				
+ 				
+		}
+	}while (opcao != 12);
+	
+	getch();
+	return 0;
+}
+// Objetivo: Listar os elementos de uma lista par e uma lista impar.
+// Parâmetros: Lista par e lista impar.
+// Retorno: --/--
+void listarElementosListasParImpar(lista listaPar, lista listaImpar){
+	int i = 0;
+	
+	system("cls");
+	if (!isListaVazia(listaPar)){
+		printf("\nElementos pares: ");
+		while (listaPar != NULL){
+			printf("\n%d%c Valor: %d", i+1, -89, listaPar->valor);
+			listaPar = listaPar->prox;
+		}		
+	}
+	else{
+		printf("\nNao existem elementos pares.");
+	}
+	i = 0;
+	if (!isListaVazia(listaImpar)){
+		printf("\nElementos impares: ");
+		while (listaImpar != NULL){
+			printf("\n%d%c Valor: %d", i+1, -89, listaImpar->valor);
+			listaImpar = listaImpar->prox;
+		}		
+	}
+	else{
+		printf("\n\nNao existem elementos impares.");
+	}
+	getch();
+	system("cls");
+}
+// Objetivo: Preencher uma lista de pares e uma de impares, com base na lista informada.
+// Parâmetros: Uma lista encadeada.
+// Retorno: --/--
+void getListasParImpar (lista li, lista *listaPar, lista *listaImpar){
+	int i;
+	int qtd;
+	int *auxiliar;
+	
+	if (isListaVazia(li)){
+		printf("Nao foi possivel separar o(s) elemento(s) da lista, pois ela esta vazia!");
+	}
+	else{
+		qtd = getQtdElementos(li);	
+		auxiliar = (int *) malloc (sizeof(int) * qtd);		
+		for (i = 0; i < qtd; i++){
+			auxiliar[i] = li->valor;
+			li = li->prox;
+		}
+		
+		for (i = 0; i < qtd; i++){
+			if ((auxiliar[i] % 2) == 0){
+				adicionarElementoAoTopo(listaPar, auxiliar[i]);
+			}
+			else{
+				adicionarElementoAoTopo(listaImpar, auxiliar[i]);
+			}
+		}
+		listarElementosListasParImpar(*listaPar, *listaImpar);
+	}
+	
+}
+// Objetivo: Preencher uma lista ordenada, com base na lista informada.
+// Parâmetros: Uma lista encadeada.
+// Retorno: --/--
+void getListaCrescente (lista li, lista *listaOrdenada){
+	int qtd;
+	int i, j;
+	int *auxiliar;
+	int auxiliarBubblesort;
+	
+	if (isListaVazia(li)){
+		printf("Nao foi possivel ordenar o(s) elemento(s) da lista, pois ela esta vazia!");
+		getch();
+	}
+	else{
+		qtd = getQtdElementos(li);
+		auxiliar = (int *) malloc (sizeof(int) * qtd);		
+		for (i = 0; i < qtd; i++){
+			auxiliar[i] = li->valor;
+			li = li->prox;
+		}
+	
+		for (i = 0; i < qtd - 1; i++){
+			for (j = i + 1; j < qtd; j++){
+				if (auxiliar[i] < auxiliar[j]){
+					auxiliarBubblesort = auxiliar[i];
+					auxiliar[i] = auxiliar[j];
+					auxiliar[j] = auxiliarBubblesort;
+				}
+			}
+		}
+		
+		for (i = 0; i < qtd; i++){
+			adicionarElementoAoTopo(listaOrdenada, auxiliar[i]);
+		}
+		
+		listarElementosLista(*listaOrdenada);
+	}
+	system("cls");
+	
+}
+// Objetivo: Remover um valor específico de uma lista.
+// Parâmetros: Referência da lista, valor a ser removido.
+// Retorno: --/--
+int removeItemLista(lista *li, int x){
+	lista auxLista = (*li);  	Lista *auxCelula;
+	lista teste;
+    int quant = 0;
+	if (*li != NULL) 
+    {	//caso de retirar o(s) primeiro(s) elemento(s) da lista ...
+        while (auxLista->valor == x)
+        {     (*li) = auxLista->prox;				 				
+			  free(auxLista);
+			  quant++;
+			  if((*li) == NULL)
+			        return quant;
+			  auxLista = (*li);
+		}
+		//pesquisar elemento - caso  exista ficará apontado por auxLista
+		while ((auxLista != NULL)&&(auxLista->valor > x))  
+		{	auxCelula = auxLista;
+			auxLista = auxLista->prox;			
+			while (auxLista->valor == x){
+			     auxCelula->prox = auxLista->prox;
+		         free(auxLista);   quant++;
+                 if(auxCelula->prox == NULL)  //fim da lista
+                         return quant;
+                 auxLista = auxCelula->prox;
+            }    			
+		}	
+		if (quant == 0){
+			printf("O valor nao existe na lista!");
+			getch();
+			system("cls");
+			return 0;
+		}
+		else{
+			printf("O valor foi removido com sucesso!");
+			getch();
+			system("cls");
+			return quant;
+		}
+
+		
+   }
+   else{
+   		printf("A lista esta vazia!\n");
+   		getch();
+   		system("cls");
+   		return 0;
+   }
+      
+}	
+
+// Objetivo: Retornar a media aritmética de uma lista.
+// Parâmetros: Lista.
+// Retorno: Média aritmética da lista.
+float getMedia (lista li){
+	int qtd = 0;
+	float soma = 0;
+	
+	if (li == NULL)
+		return 0;
+	else{			
+		while(li != NULL){
+			soma += li->valor;
+			qtd++;
+			li = li->prox;
+		}
+	}
+	
+	return soma/qtd;
+}
+// Objetivo: Retornar a quantidade de elementos de uma lista.
+// Parâmetros: Lista.
+// Retorno: Quantidade de elementos da lista.
+int getQtdElementos(lista li){
+	int i = 0;
+	
+	while (li != NULL){
+		li = li->prox;
+		i++;
+	}
+	
+	return i;
+}
+// Objetivo: Listar todos os elementos de uma lista.
+// Parâmetros: Referência da lista.
+// Retorno: --/--
+void listarElementosLista(lista li){
+	int i = 0;
+	
+	system("cls");
+	if (isListaVazia(li)){
+		printf("Nao foi possivel listar o(s) elemento(s) da lista, pois ela esta vazia!");
+	}
+	else{
+		(i == 0) ? printf("Elementos ->>") : printf("");
+		while (li != NULL){
+			printf("\n%d%c Valor: %d", i+1, -89, li->valor);
+			li = li->prox;
+			i++;
+		}
+	}
+	getch();
+	system("cls");
+}
+// Objetivo: Retirar um elemento da cauda da lista.
+// Parâmetros: Referência da lista.
+// Retorno: --/--
+void retirarElementoCaudaLista(lista *li){
+	Lista *aux;
+	system("cls");
+	if (isListaVazia(*li)){
+		printf("Nao foi possivel remover um elemento, pois a lista esta vazia!");
+	}
+	else{
+		aux = *li;
+		if (aux->prox == NULL){
+			*li = NULL;
+			free(aux);
+			return;
+		}
+		while(aux->prox->prox != NULL)
+			aux = aux->prox;
+		free(aux->prox);
+		aux->prox = NULL; 
+		printf("Elemento removido com sucesso!");
+	}
+	getch();
+	system("cls");
+
+}
+
+// Objetivo: Retirar um elemento do topo da lista.
+// Parâmetros: Referência da lista.
+// Retorno: --/--
+void retirarElementoTopoLista(lista *li){
+	Lista *aux;
+	
+	system("cls");
+	
+	if (isListaVazia(*li)){
+		printf("Nao foi possivel remover um elemento, pois a lista esta vazia!");
+	}
+	else{
+		aux = *li;
+		*li = aux->prox;
+		free(aux);
+		printf("Elemento removido com sucesso!");
+	}
+	getch();
+	system("cls");
+}
+// Objetivo: Inserir um elemento na cauda da lista.
+// Parâmetros: Referência da lista, elemento.
+// Retorno: --/--
+void adicionarElementoNaCauda(lista *li, int elemento){
+	Lista *tmp;
+	lista aux;
+	
+	system("cls");
+	
+	tmp = (Lista*) malloc (sizeof(Lista));
+	tmp->valor = elemento;
+	tmp->prox = NULL;
+	if (isListaVazia(*li))
+		*li = tmp;
+	else{
+		aux = *li;
+		while (aux->prox != NULL)
+			aux = aux->prox;	
+		aux->prox = tmp;	
+	}
+
+	printf("Elemento adicionado com sucesso!");
+	getch();
+	system("cls");
+	
+}
+// Objetivo: Retornar se a lista está vazia ou não. (1 - !vazia ou 0 - vazia);
+// Parâmetros: Referência da lista.
+// Retorno: 1 ou 0
+int isListaVazia (lista li){
+	return (li == NULL);
+}
+// Objetivo: Adicionar um elemento ao topo da lista.
+// Parâmetros: Referência da lista, elemento a ser adicionado.
+// Retorno: --/--
+void adicionarElementoAoTopo(lista *li, int elemento){
+	Lista *aux;
+	
+	
+	aux = (Lista*) malloc (sizeof(Lista));
+	aux->valor = elemento;
+	aux->prox = *li;
+	*li = aux;
+}
+// Objetivo: Inicializar a lista. (Fazer o elemento apontar pra NULL)
+// Parâmetros: Referência da lista.
+// Retorno: --/--
+void inicializarLista (lista *li){
+	*li = NULL;	
+}
+// Objetivo: Ler um número inteiro válido.
+// Parâmetros: Mensagem, endereço de onde o número será armazenado, limite mínimo e máximo.
+// Retorno: --/--
+void leValidaInt (char const *msg, int *num, int min, int max){
+	int ret;
+	
+	do{
+		do{
+			printf("%s",msg);
+			fflush(stdin);
+			ret = scanf("%d",num);
+			if (ret == 0){
+				printf("Favor digitar um numero.\n");
+				getch();
+			}			
+		}while (ret == 0);
+		if (*num < min || *num > max){
+			printf("Favor informar um numero dentro do intervalo(%d a %d).\n", min, max);
+		}
+	}while (*num < min || *num > max);
+}
+// Objetivo: Apresentar o menu deste programa.
+// Parâmetros: --/--
+// Retorno: --/--
+void apresentaMenu (){
+	printf("---------------------------------- MENU --------------------------------\n");
+	printf("| 1-  Inserir um elemento no TOPO da lista.                            |\n");
+	printf("| 2-  Inserir um elemento na CAUDA da lista.                           |\n");
+	printf("| 3-  Retirar elemento do TOPO da lista.                               |\n");
+	printf("| 4-  Retirar elemento da CAUDA da lista.                              |\n");
+	printf("| 5-  Listar elementos da lista.                                       |\n");
+	printf("| 6-  Lista Vazia (V ou F).                                            |\n");
+	printf("| 7-  Quantidade de elementos da lista.                                |\n");
+	printf("| 8-  Media aritmetica dos elementos da lista.                         |\n");
+	printf("| 9-  Remover um valor especifico da lista.                            |\n");
+	printf("| 10- Lista ordenada.                                                  |\n");
+	printf("| 11- Gerar uma lista par e uma impar com base na lista informada.     |\n");
+	printf("| 12- Encerrar o programa...                                           |\n");
+	printf("------------------------------------------------------------------------");
+	printf("\nDigite sua opcao: ");
+}

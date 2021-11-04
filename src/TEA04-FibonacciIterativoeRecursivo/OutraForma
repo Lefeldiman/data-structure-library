@@ -1,0 +1,64 @@
+/* a) - Fazer um programa que escreva na tela a seqüência de Fibonacci 
+de 0 até 45.
+b)- Em seguida, escrevê-la novamente, usando uma função iterativa que 
+retorne o resultado na seqüência de um inteiro recebido como parâmetro 
+(aplicar a função para os 46 valores). 
+c)- Em seguida, escrevê-la novamente, usando uma função recursiva que 
+retorne o resultado na seqüência de um inteiro recebido como parâmetro 
+(aplicar a função para os 46 valores). 
+
+Obs. A seqüência de Fibonacci  é assim definida :
+
+Fib(0) = 1    , por definição
+Fib(1) = 1    , por definição
+Fib(2) = 2
+Fib(3) = 3
+Fib(4) = 5
+Fib(5) = 8
+Fib(6) = 13
+...............
+Fib(N) = Fib(N-2) + Fib(N-1)       */
+#include <stdio.h>
+int FibIter(int N)
+{  int FibN_2=1, FibN_1=1, Fib=1, I;
+   for(I=2;I<=N;I++)
+   {   Fib = FibN_2 + FibN_1;
+       FibN_2 = FibN_1;
+       FibN_1 = Fib;
+   }
+   return Fib;
+}
+
+int FibRec(int N)
+{  if((N==0)||(N==1))
+        return 1;
+   else
+        return(FibRec(N-2) + FibRec(N-1)); 
+}
+
+int main()
+{ int Nr, FibN_2=1, FibN_1=1, Fib=1; 
+  printf("Sequencia de FIBONACCI de 0 ate 45 sem usar funcoes\n\n");
+  printf("Fib( 0) = %10d\nFib( 1) = %10d\n",1,1);
+  for(Nr=2;Nr<=45;Nr++)
+   {   Fib = FibN_2 + FibN_1;
+       printf("Fib(%2d) = %10d\n",Nr,Fib); 
+       FibN_2 = FibN_1;
+       FibN_1 = Fib;
+   }
+  system("PAUSE");
+  
+  printf("\n\nSequencia de FIBONACCI de 0 ate 45\n");
+  printf("Solucao com FibIter (funcao ITERATIVA):\n\n");
+  for(Nr=0;Nr<=45;Nr++)
+      printf("Fib(%2d) = %d\n",Nr,FibIter(Nr)) ;
+  system("PAUSE");
+  
+  printf("\n\nSequencia de FIBONACCI de 0 ate 45\n");
+  printf("Solucao com FibRec (funcao RECURSIVA):\n\n");
+  for(Nr=0;Nr<=45;Nr++)
+      printf("Fib(%2d) = %10d\n",Nr,FibRec(Nr)) ;  
+  
+  printf("\n\nPressione um TECLA para TERMINAR ...");  
+  getch();    return 0;
+}    

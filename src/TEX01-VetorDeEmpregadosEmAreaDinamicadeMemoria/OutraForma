@@ -1,0 +1,62 @@
+/* Considere a seguinte estrutura :
+	typedef  struct {
+        int  Matricula;
+        char  Sexo;
+        float Salario;
+    } Empregado;
+Criar um vetor de 30 empregados na Área Dinâmica de Memória. Para cada 
+empregado, gerar aleatoriamente a Matrícula (entre 1000 e 9999), gerar 
+aleatoriamente o Sexo (M ou F) e gerar aleatoriamente o Salario 
+(entre R$ 894,31 e R$ 9.346,19  todos com duas casas decimais).
+Após a criação do vetor, escrever os 3 dados de cada empregado, na ordem 
+em que foram gerados.
+Ordenar CRESCENTE o vetor pelo campo Matrícula. 
+Escrever os 3 dados de cada empregado, em ordem crescente de Matrícula.   */
+#include <stdio.h>
+typedef  struct {
+              int  Matricula;
+              char  Sexo;
+              float Salario;
+         } Empregado;
+int main() 
+{	Empregado *vetorDados, Aux;
+	int i,j, Trocou = 1;
+	vetorDados = (Empregado *)malloc(sizeof(Empregado) * 30);
+	srand(time(NULL));	
+	for(i = 0; i < 30; i++)
+    {   vetorDados[i].Matricula = rand() % 9000 + 1000 ;			
+		vetorDados[i].Sexo = (rand() % 2) ? 'F' : 'M' ;			
+		vetorDados[i].Salario = (89431 + rand() % (934619 - 89431 + 1))/100.0;	
+	}
+	printf("30 Empregados com dados aleatorios gerados :\n\n");
+	for(i = 0; i < 30; i++)
+    {   printf("Empregado %2d :\n",i+1);
+        printf("\tMatricula : %d\n ",vetorDados[i].Matricula);		
+		printf("\tSexo: %c \n",vetorDados[i].Sexo);		
+		printf("\tSalario: R$ %.2f\n\n",vetorDados[i].Salario);
+	}
+	//Ordenar vetor pelo campo Matrícula
+	j=29;
+	while(Trocou)
+	{   Trocou = 0;
+		j--;
+	    for(i=0;i<=j;i++)
+	    {     if(vetorDados[i].Matricula > vetorDados[i+1].Matricula)
+	          {    Aux = vetorDados[i];				
+			       vetorDados[i] = vetorDados[i+1];
+			       vetorDados[i+1] = Aux;
+			       Trocou = 1;
+		      }
+	    }
+	}
+	printf("\n\n30 Empregados Ordenados por Matricula :\n\n");
+	for(i = 0; i < 30; i++)
+    {   printf("Empregado %2d :\n",i+1);
+        printf("\tMatricula : %d\n ",vetorDados[i].Matricula);		
+		printf("\tSexo: %c \n",vetorDados[i].Sexo);		
+		printf("\tSalario: R$ %.2f\n",vetorDados[i].Salario);
+	}
+    //Finalização
+     printf("\n\nPressione qualquer tecla para TERMINAR o programa ... ");
+     getch();     return 0;   
+}

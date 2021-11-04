@@ -1,0 +1,118 @@
+/*
+typedef struct {    
+                       char titulo[100];
+                       int  codigo;
+              } livro; 
+
+Considerando a estrutura acima, faça um programa que aloque dinamicamente
+ um vetor de livros com 5 posições e que alimente esse vetor (lendo 
+ do teclado os dados) e depois o liste na tela.       */
+#include <stdio.h>
+typedef struct 
+       {    char titulo[100];
+            int  codigo;
+       } livro;
+
+int main(void)
+{    // Declarações
+     livro *VetLivros;     int aux;
+     // Instruções
+     //VetLivros = calloc(5,sizeof(livro));
+     VetLivros = (livro *) malloc(sizeof(livro) * 5);
+     for(aux = 0; aux<5; aux++)
+     {  printf("\n  Informe o nome do %do livro : ",aux+1);
+        fflush(stdin);
+        gets(VetLivros[aux].titulo);
+        printf("Informe o codigo do %do livro : ",aux+1);      
+        scanf("%d",&VetLivros[aux].codigo);
+     }
+     printf("\n\nDados dos livros cadastrados :\n\n");
+     for(aux=0;aux<5;aux++)
+     {   printf("%do Livro\n",aux+1);    
+         printf("Nome: %s \n",VetLivros[aux].titulo);
+         printf("Codigo : %d \n\n\n", VetLivros[aux].codigo);       
+     }
+    //Finalização
+    printf("\n\nDigite qualquer TECLA para TERMINAR o PROGRAMA .... ");
+    getch();      return 0;    
+} 
+
+-----------------------------------------------------------------------------
+/*
+typedef struct {    
+                       char titulo[100];
+                       int  codigo;
+              } livro; 
+
+Considerando a estrutura acima, faça um programa que aloque dinamicamente
+ um vetor de livros com 5 posições e que alimente esse vetor (lendo 
+ do teclado os dados) e depois o liste na tela.    */
+#include <stdio.h>
+typedef struct 
+       {    char titulo[100];
+            int  codigo;
+       } livro;
+
+int main(void)
+{    // Declarações
+     livro *VetLivros;     int aux;
+     // Instruções
+     VetLivros = calloc(5,sizeof(livro));
+     //VetLivros = (livro *) malloc(sizeof(livro) * 5);
+     for(aux = 0; aux<5; aux++)
+     {  printf("\n  Informe o nome do %do livro : ",aux+1);
+        fflush(stdin);
+        gets((*(VetLivros+aux)).titulo);
+        printf("Informe o codigo do %do livro : ",aux+1);      
+        scanf("%d",&(*(VetLivros+aux)).codigo);
+     }
+     printf("\n\nDados dos livros cadastrados :\n\n");
+     for(aux=0;aux<5;aux++)
+     {   printf("%do Livro\n",aux+1);    
+         printf("Nome: %s \n",(*(VetLivros+aux)).titulo);
+         printf("Codigo : %d \n\n\n", (*(VetLivros+aux)).codigo);       
+     }
+    //Finalização
+    printf("\n\nDigite qualquer TECLA para TERMINAR o PROGRAMA .... ");
+    getch();      return 0;    
+} 
+
+
+-------------------------------------------------------------------------------
+/*
+typedef struct {    
+                       char titulo[100];
+                       int  codigo;
+              } livro; 
+
+Considerando a estrutura acima, faça um programa que aloque dinamicamente
+ um vetor de livros com 5 posições e que alimente esse vetor (lendo 
+ do teclado os dados) e depois o liste na tela.      */
+#include <stdio.h>
+int main(void)
+{    // Declarações
+     typedef struct 
+                 {    char titulo[100];
+                      int  codigo;
+                 } livro;
+     livro *VetLivros;     int aux;
+     // Instruções
+     VetLivros = (livro *)calloc(5,sizeof(livro));
+     //VetLivros = (livro *) malloc(sizeof(livro) * 5);
+     for(aux = 0; aux<5; aux++)
+     {  printf("\n  Informe o nome do %do livro : ",aux+1);
+        fflush(stdin);
+        gets((VetLivros+aux)->titulo);
+        printf("Informe o codigo do %do livro : ",aux+1);      
+        scanf("%d",&(VetLivros+aux)->codigo);
+     }
+     printf("\n\nDados dos livros cadastrados :\n\n");
+     for(aux=0;aux<5;aux++)
+     {   printf("%do Livro\n",aux+1);    
+         printf("Nome: %s \n",(VetLivros+aux)->titulo);
+         printf("Codigo : %d \n\n\n", (VetLivros+aux)->codigo);      
+     }
+    //Finalização
+    printf("\n\nDigite qualquer TECLA para TERMINAR o PROGRAMA .... ");
+    getch();      return 0;    
+} 

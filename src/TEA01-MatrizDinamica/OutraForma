@@ -1,0 +1,68 @@
+/* Fazer um programa que crie uma matriz M de inteiros, na área 
+dinâmica de memória. A quantidade de linhas e a quantidade de 
+colunas de M devem ser lidas via teclado. Inicializar cada M[i][j] 
+com o valor de (i+j) . Escrever M na tela, em formato matricial. */
+#include <stdio.h>
+/* Início do programa. */
+int main(int argc, char *argv[])
+{ /* Declaração das variáveis. */
+  int **M;
+  int i, j, linhas, colunas;  
+  /* Leitura das quantidades de linhas e colunas. */
+  printf("Entre com a Quantidade de linhas : ");
+  scanf("%d", &linhas); 
+  printf("Entre com a Quantidade de colunas : ");
+  scanf("%d", &colunas);   
+  /* Alocação da matriz M    */
+  M = (int **) malloc(sizeof(int *) * linhas);
+  for (i = 0; i < linhas; i++)
+         M[i] = (int *) malloc(sizeof(int) * colunas);  
+  /* Preenchimento da matriz M   */
+  for (i = 0; i < linhas; i++)
+        for (j = 0; j < colunas; j++)
+               M[i][j] = i + j;
+  /* Escrita da matriz M na tela.   */ 
+  printf("\n\n Matriz Criada : \n\n");
+  for (i = 0; i < linhas; i++)
+  {      for (j = 0; j < colunas; j++)
+                 printf("%4d ", M[i][j]);
+         printf("\n\n");
+  }
+  printf("\n\n");    system("PAUSE");    return 0;
+}
+
+
+------------------------------------------------------------------------
+
+/* Fazer um programa que crie uma matriz M de inteiros, na área 
+dinâmica de memória. A quantidade de linhas e a quantidade de 
+colunas de M devem ser lidas via teclado. Inicializar cada M[i][j] 
+com o valor de (i+j) . Escrever M na tela, em formato matricial. */
+#include <stdio.h>
+/* Início do programa. */
+int main(int argc, char *argv[])
+{ /* Declaração das variáveis. */
+  int **M;
+  int i, j, linhas, colunas;  
+  /* Leitura das quantidades de linhas e colunas. */
+  printf("Entre com a Quantidade de linhas : ");
+  scanf("%d", &linhas); 
+  printf("Entre com a Quantidade de colunas : ");
+  scanf("%d", &colunas);   
+  /* Alocação da matriz M    */
+  M = (int **) calloc(linhas,sizeof(int *));
+  for (i = 0; i < linhas; i++)
+         M[i] = (int *) calloc(colunas,sizeof(int));  
+  /* Preenchimento da matriz M   */
+  for (i = 0; i < linhas; i++)
+        for (j = 0; j < colunas; j++)
+               M[i][j] = i + j;
+  /* Escrita da matriz M na tela.   */ 
+  printf("\n\n Matriz Criada : \n\n");
+  for (i = 0; i < linhas; i++)
+  {      for (j = 0; j < colunas; j++)
+                 printf("%4d ", M[i][j]);
+         printf("\n\n");
+  }
+  printf("\n\n");    system("PAUSE");    return 0;
+}

@@ -1,0 +1,96 @@
+/* Faça um programa que gere um vetor de 120 reais aleatórios 
+entre 27.3 e 91.8 (todos com exatamente uma casa decimal). 
+Listar os elementos do vetor. Ordenar o vetor em ordem crescente. 
+Reescrever o vetor na tela. 
+Gerar uma tabela com todos os inteiros de 28 até 91 - ao lado 
+de cada valor inteiro, escrever (duas vezes) se o mesmo pertence 
+ou não ao vetor, usando pesquisa binária (criar e usar uma função 
+Iterativa e outra Recursiva para tal).     */
+#include <stdio.h>
+int gerarAleatorio(int max, int min);
+int pesquisaBinariaIter(float *vetor,float x, int N);
+int pesquisaBinariaRec(float *a, float x, int low, int high);
+int main(void)
+{ const int MAX = 120;
+  float vetor[MAX], AUXILIAR;  
+  int aux,Trocou=1;     srand(time(NULL));
+  for(aux=0;aux<MAX;aux++)
+       vetor[aux]=(float)gerarAleatorio(918,273)/10;
+  puts("Valores gerados:\n");
+  for(aux=0;aux<MAX;aux++)
+       printf("V[%3d] = %4.1f\t",aux,vetor[aux]);  
+  //Ordenação Crescente do vetor
+  while(Trocou)
+  {  Trocou=0;
+     for(aux=0;aux<=(MAX-2);aux++)
+           if(vetor[aux] > vetor[aux+1])
+           {   AUXILIAR = vetor[aux];
+               vetor[aux] =  vetor[aux+1];
+               vetor[aux+1] = AUXILIAR;
+               Trocou=1;
+           }               
+  }
+  puts("\n\n\n\nValores Ordenados CRESCENTE: \n\n");
+  for(aux=0;aux<MAX;aux++)
+       printf("V[%3d] = %4.1f\t",aux,vetor[aux]);
+  printf("\n\n\n  Valor -  Iterativa   -   Recursiva\n");
+  for(aux=28;aux<92;aux++){
+     printf("    %d  -",aux);
+     printf((pesquisaBinariaIter(vetor,aux,MAX)!=-1)?"  Pertence    -":"  Nao Pertence-");
+     printf((pesquisaBinariaRec(vetor, aux, 0, MAX-1)!=-1)?"  Pertence    -\n":"  Nao Pertence-\n");
+  }
+  printf("\n\nDigite uma TECLA para TERMINAR o programa ... ");
+  getch();  return 0;
+}
+
+/*
+Objetivo:   gerar valores aleatorios, dentros dos parametros determinados
+Parametro:  intervalo maximo e minimo do valor gerado
+Retorno:    valor aleatorio gerado
+*/
+int gerarAleatorio(int max, int min){
+    return rand()%(max-min+1)+ min;
+}
+/*
+Objetivo:  pesquisa binaria, por função recursiva
+Parametro: vetor ordenado crescente, valor a ser pesquisado, índice inicial e
+           índice final do vetor a ser pesquisado
+Retorno:   índice do vetor onde o valor foi encontrado, ou -1 caso o valor não 
+           pertença ao  vetor.
+*/
+int pesquisaBinariaRec(float *a, float x, int low, int high)
+{	int mid;
+	if(low>high)
+		 return(-1);
+    mid = (low+high) / 2;
+	if(x==a[mid])
+		 return(mid);
+	if(x<a[mid])
+		 return(pesquisaBinariaRec(a,x,low,mid-1));
+	return(pesquisaBinariaRec(a,x,mid+1,high));
+}
+/*
+objetivo:   pesquisa binaria com função iterativa
+parametro:  vetor ordenado crescente, valor x a ser pesquisado no vetor,
+            quantidade N de elementos do vetor. 
+retorno:    índice do vetor onde x foi encontrado, ou -1 caso x não 
+            pertença ao  vetor.
+*/
+int pesquisaBinariaIter(float *vetor,float x, int N){
+    int low=0, high=N-1;
+    int mid=(low+high)/2;
+    do
+    {   if(x==vetor[mid])
+             return mid;
+        if(x<vetor[mid])
+        {    high=mid-1;
+             mid=(low+high)/2;
+        }else if(x>vetor[mid])
+              {    low=mid+1;
+                   mid=(low+high)/2;
+              }
+    }while(low<=high);
+    return (-1);
+}   
+           
+    

@@ -1,0 +1,43 @@
+/*Faça um programa que gere 20 valores inteiros entre -15 e 30. Fazer 
+uma tabela de potências onde cada linha tenha um nr gerado e seu valor 
+elevado a 5.
+Para efeito didático, faça uma função iterativa que receba uma Base e 
+um Expoente inteiros, e retorne o valor da Base elevada ao Expoente.
+Também para efeito didático, faça uma função recursiva que receba uma 
+Base e um Expoente inteiros, e retorne o valor da Base elevada ao 
+Expoente.
+Ao final do programa, comparar os resultados com a aplicação de pow.   */
+#include <stdio.h>
+int PotIterativa(int Base, int Expoente);
+int PotRecursiva(int Base, int Expoente);
+int main(void)
+{// Declaracoes
+     int Nr;     int aux;
+// Instrucoes
+     srand(time(NULL));
+     for(aux=1;aux<=20;aux++)
+     {    Nr = rand() % 46 - 15 ;
+          printf("%2do Nr = %d\n",aux,Nr);
+          printf("%2d elevado a 5, pela funcao Iterativa = %d\n",Nr,PotIterativa(Nr,5));
+          printf("%2d elevado a 5, pela funcao Recursiva = %d\n",Nr,PotRecursiva(Nr,5));
+          printf("%2d elevado a 5, usando pow            = %d\n",Nr,(int)pow(Nr,5));
+          printf("\n\n\n");
+     }
+     
+     //Finalização
+    printf("\n\nDigite qualquer TECLA para TERMINAR o PROGRAMA .... ");
+    getch();      return 0;    
+} 
+
+int PotIterativa(int Base, int Expoente)
+{  int Potencia=1,aux;
+   for(aux=1;aux<=Expoente;aux++)
+         Potencia *= Base;
+   return Potencia;
+}
+int PotRecursiva(int Base, int Expoente)
+{    if(Expoente == 0)
+            return 1;
+     else   return (Base * PotRecursiva(Base,Expoente-1));
+}
+              

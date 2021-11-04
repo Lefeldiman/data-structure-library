@@ -1,0 +1,166 @@
+/*Gerar um inteiro aleatório N, entre 10 e 50.
+Criar uma Lista Encadeada de Inteiros,Ordenada Decrescente, com N inteiros aleatórios 
+ente 0 e 15 (ou seja, com N células). 
+Criar as seguintes operações/rotinas relativas a Lista Encadeada Ordenada Decrescente 
+de inteiros: 
+- inicializar uma lista; 
+- inserir elemento na lista (levar em conta que a lista admite valores repetidos); 
+- retirar um valor (inteiro passado como parâmetro) da Lista, em todas as suas 
+  ocorrências, retornando a quantidade de ocorrências; 
+- apresentar na tela todos os elementos da lista. 
+
+Crie um menu com as opções para Retirar Elemento e Listar todos os Elementos da 
+Lista Encadeada Ordenada Decrescente.      */
+#include <stdio.h>
+#include <stdlib.h>
+/* typedefs e Estruturas */	
+typedef struct s_cel {
+	int valor;
+	struct s_cel *next;
+}Celula;
+
+typedef Celula* Lista;
+
+/* Protótipos das funções */
+void inicializaLista(Lista *pLista);
+void addElem(Lista *pLista, int valor);
+int removeItemLista(Lista *lista, int x);
+void apresentaLista(Lista lista);
+void Finalizacao();
+
+//Principal
+int main() 
+{   /* Declaracoes */
+	   Lista lista, listaOrdDecres;
+	   int opcao, valor, N, quantidade, cont;	   
+/* Instruções */
+   inicializaLista(&lista);   srand(time(NULL));
+   N = rand() % 41 + 10;  //aleatório entre 10 e 50
+   for(cont=1;cont<=N;cont++)
+            addElem(&lista, rand()%16); 
+   printf("Lista inicial gerada com %d inteiros ...\n",N);         
+   do{  printf("\n\nMenu de opcoes");
+      	printf("\n------------------");
+      	printf("\n1 - Retirar numero inteiro da Lista Encadeada Ordenada DECRESCENTE");
+      	printf("\n2 - Listar inteiros da Lista Encadeada Ordenada DECRESCENTE");
+      	printf("\n3 - Sair");
+      	printf("\n------------------");
+      	printf("\nOpcao: ");
+      	scanf("%d",&opcao);
+      	switch(opcao){        	
+         	case 1:
+                 printf("\n\nInforme o valor inteiro a ser RETIRADO da Lista: ");
+		         scanf("%d",&valor);
+         		 quantidade = removeItemLista(&lista,valor);
+         		 printf("\nRemovidas %d ocorrencias do nr %d\n",quantidade,valor);
+            	 break;         	
+         	case 2:
+         		apresentaLista(lista);            	        	
+      	}
+  	}while(opcao != 3);	
+    Finalizacao();
+    return 0;
+}
+
+/*
+* Sub Programa - Remover Item da Lista
+*   Objetivo : Remover um item da lista.
+*   Parâmetro: Endereço inicial da lista,
+			   Valor do item a ser removido.
+*   Retorno  : Quantidade de itens removidos.
+*/
+int removeItemLista(Lista *lista, int x)
+{	Lista auxLista = (*lista);  	Celula *auxCelula;
+    int quant=0;
+	if (*lista != NULL) 
+    {	//caso de retirar o(s) primeiro(s) elemento(s) da lista ...
+        while (auxLista->valor == x)
+        {     (*lista) = auxLista->next;				 				
+			  free(auxLista);
+			  quant++;
+			  if((*lista) == NULL)
+			        return quant;
+			  auxLista = (*lista);
+		}
+		//pesquisar elemento - caso  exista ficará apontado por auxLista
+		while ((auxLista != NULL)&&(auxLista->valor > x))  
+		{	auxCelula = auxLista;
+			auxLista = auxLista->next;			
+			while (auxLista->valor == x){
+			     auxCelula->next = auxLista->next;
+		         free(auxLista);   quant++;
+                 if(auxCelula->next == NULL)  //fim da lista
+                         return quant;
+                 auxLista = auxCelula->next;
+            }    			
+		}	
+		return quant ;
+   }
+   printf("\nLista VAZIA - %d NAO encontrado na Lista ...\n",x); 
+   return 0 ;  // caso de lista vazia
+}	
+/*
+* Sub Programa - Apresenta Lista
+*   Objetivo : Apresenta Lista
+*   Parâmetro: Endereço da cabeça da lista.
+*   Retorno  : Nenhum.
+*/
+void apresentaLista(Lista lista)
+{	printf("\n\nListagem dos componentes da Lista encadeada DECRESCENTE:\n");
+	if(lista==NULL)
+	    printf("\nLista VAZIA ..............\n");
+	int cont=0;    
+    while (lista != NULL) 
+	{   cont++;
+		printf("\n%2do Valor: %d",cont,lista->valor);
+		lista = lista->next;
+	}
+}
+
+/*
+* Sub Programa - Inicializa uma lista.
+*   Objetivo : Inicializar uma lista.
+*   Parâmetro: Endereço da lista.
+*   Retorno  : Nenhum.
+*/
+void inicializaLista(Lista *pLista) 
+{
+	*pLista = NULL;
+}
+
+/*
+* Sub Programa - Adiciona Elemento
+*   Objetivo : Adiciona elementos de forma ordenada decrescente na lista.
+*   Parâmetro: Endereço inicial da lista, valor.
+*   Retorno  : Nenhum.
+*/
+void addElem(Lista *pLista, int x)
+{
+	Celula *temp = (Celula *) malloc(sizeof(Celula));
+	Lista auxLista = (*pLista);
+	
+	temp->valor = x;
+	//casos de inserir no início da lista
+	if(((*pLista)==NULL)||((*pLista)->valor < x)) {
+	      temp->next = *pLista;
+		  *pLista = temp;
+		  return;
+    }
+	//inserir no meio ou no final da lista
+	while ((auxLista->next != NULL) && (auxLista->next->valor > x)) {
+		 auxLista = auxLista->next;
+	}
+	temp->next = auxLista->next;
+	auxLista->next = temp;
+}
+
+/*
+* Sub Programa - Finalizacao
+*   Objetivo : Finalizar o programa ao pressionar uma tecla
+*   Parâmetro: nenhum
+*   Retorno  : nenhum
+*/
+void Finalizacao()
+{     printf("\n\nPressione uma TECLA para TERMINAR o programa ... ");
+      getch();
+}

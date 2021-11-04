@@ -1,0 +1,62 @@
+/* Escreva rotinas que façam a multiplicação de dois números naturais 
+de forma iterativa e recursiva (usando só a adição). Faça um programa 
+que leia e valide dois números naturais e escreva seu produto duas vezes 
+(usando ambas as rotinas). 
+ 
+Protótipos das rotinas a serem criadas:
+            
+           int lerValidarNumeroNatural();
+           int multiplicaIterativa(int num1, int num2);
+           int multiplicaRecursiva(int num1, int num2);        */
+#include <stdio.h>
+int lerValidarNumeroNatural();
+int multiplicaIterativa(int num1, int num2);
+int multiplicaRecursiva(int num1, int num2);
+
+int main(void)
+{ int num1 = lerValidarNumeroNatural();
+  printf("\n\n\n");
+  int num2 = lerValidarNumeroNatural();  
+  printf("\nResultado de %d x %d :\n\n",num1,num2);
+  printf("Funcao Iterativa: %d\n",multiplicaIterativa(num1,num2));
+  printf("\nFuncao Recursiva: %d",multiplicaRecursiva(num1,num2));
+  printf("\n\n\nDigite uma TECLA para TERMINAR o programa ... ");
+  getch();  return 0;
+}
+/*
+Objetivo: ler e validar um Nr Natural ( >= ZERO )
+Parametro: nenhum
+Retorno: Nr Natural lido e validado
+*/
+int lerValidarNumeroNatural()
+{    int num;
+     do
+     {   printf("Entre com um numero Natural ( >= ZERO ): ");
+         scanf("%d",&num);
+         if(num<0)
+               puts("Numero < 0 - Invalido !!! Digite novamente ...\n ");
+     }while(num<0);
+     return num;
+}
+/*
+Objetivo: multiplicar 2 números, iterativamente, usando somas 
+Parâmetros: números a serem multiplicados
+Retorno: valor da multiplicação dos números
+*/
+int multiplicaIterativa(int num1, int num2){
+    int aux, total=0;
+    for(aux=1;aux<=num2;aux++) 
+           total += num1;
+    return total;
+}
+/*
+Objetivo: multiplicar 2 números, recursivamente, usando somas 
+Parâmetros: números a serem multiplicados
+Retorno: valor da multiplicação dos números
+*/
+int multiplicaRecursiva(int num1, int num2){
+         if(num2 == 0)
+                 return 0;
+         else
+                 return (num1 + multiplicaRecursiva(num1,num2-1));
+}

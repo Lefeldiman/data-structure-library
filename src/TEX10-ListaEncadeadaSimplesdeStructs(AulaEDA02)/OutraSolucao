@@ -1,0 +1,304 @@
+// Aluno : Gustavo Arthur Vollbrecht  UC13100612
+
+/*
+ Sintese:
+ -----------------------------------------------------------------------------------------------
+   Objetivo: Criar uma lista com 500 posições, contendo matrícula e mensalidade geradas
+   			 automaticamente.
+		
+
+------------------------------------------------------------------------------------------------
+   Entrada : Opcao no menu, e o que o menu pedir.
+------------------------------------------------------------------------------------------------
+   Saida   : Matrículas e mensalidades, matrículas repetidas e suas repectivas quantidades.
+------------------------------------------------------------------------------------------------
+
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+
+typedef struct ListaMatriculaMensalidade{
+	int matricula;
+	float mensalidade;
+	struct ListaMatriculaMensalidade *prox;
+}Lista;
+typedef Lista* lista;
+
+void adicionarElementoNaCauda(lista *li, int matricula, float mensalidade);
+int verificarMatricula(lista li, int matricula);
+int getQtdElementos(lista li);
+void mostraRepetidos(lista li);
+int isListaVazia (lista li);
+void listarElementosLista(lista li);
+void adicionarElementoAoTopo(lista *li, int matricula, float mensalidade);
+void inicializarLista (lista *li);
+void leValidaInt (char const *msg, int *num, int min, int max);
+
+int main(void){
+	
+	lista li;
+	lista listaAux;
+	int i;
+	int opcao;
+	int matriculaAux;
+	int matriculaComparar;
+	float mensalidadeAux;
+	
+	inicializarLista(&li);
+	
+	
+	for (i = 0; i < 2; i++){
+		matriculaAux = (rand() % 9900) + 100;
+		mensalidadeAux = ((rand() % 120627) + 34167) / 100;
+		adicionarElementoAoTopo(&li, matriculaAux, mensalidadeAux);		
+	}
+	listarElementosLista(li);
+	mostraRepetidos(li);
+	printf("\nPressione qualquer tecla para acessar o menu....");
+	getch();
+	system("cls");
+	do{
+		leValidaInt("\n1-Verificar se uma matricula existe, e caso nao existir, inserir na cauda.\n2- Listar lista\n3- Sair.\nDigite sua opcao: ", &opcao, 1 , 3);
+		switch(opcao){
+			case 1:
+				leValidaInt("Informe a matricula que deseja verificar: ", &matriculaComparar, 100, 10000);
+				if ( verificarMatricula(li, matriculaComparar) ){
+					printf("\nA matricula existe no cadastro.");
+				}
+				else{
+					printf("\nA matricula nao existe no cadastro.");
+					mensalidadeAux = ((rand() % 120627) + 34167) / 100;
+					adicionarElementoNaCauda(&li, matriculaComparar, mensalidadeAux);
+					printf("\nA matricula foi adicionada ao registro com sucesso!\n");
+				}
+				getch();
+				system("cls");
+				break;
+			case 2:
+				listarElementosLista(li);
+				printf("\n\nPressione qualquer tecla para voltar para o menu...");
+				getch();
+				system("cls");
+		}
+	}while(opcao != 3);
+	
+
+	
+	getch();
+	return 0;
+}
+
+// Objetivo: Remover um valor específico de uma lista.
+// Parâmetros: Referência da lista, valor a ser removido.
+// Retorno: --/--
+int removeItemLista(lista *li, int matricula){
+	lista auxLista = (*li);  	Lista *auxCelula;
+	lista teste;
+    int quant = 0;
+	if (*li != NULL) 
+    {	//caso de retirar o(s) primeiro(s) elemento(s) da lista ...
+        while (auxLista->matricula == matricula)
+        {     (*li) = auxLista->prox;				 				
+			  free(auxLista);
+			  quant++;
+			  if((*li) == NULL)
+			        return quant;
+			  auxLista = (*li);
+		}
+		//pesquisar elemento - caso  exista ficará apontado por auxLista
+		while ((auxLista != NULL)&&(auxLista->matricula > matricula))  
+		{	auxCelula = auxLista;
+			auxLista = auxLista->prox;			
+			while (auxLista->matricula == matricula){
+			     auxCelula->prox = auxLista->prox;
+		         free(auxLista);   quant++;
+                 if(auxCelula->prox == NULL)  //fim da lista
+                         return quant;
+                 auxLista = auxCelula->prox;
+            }    			
+		}			
+   }
+   else{
+   		printf("A lista esta vazia!\n");
+   		getch();
+   		system("cls");
+   		return 0;
+   }
+      
+}	
+// Objetivo: Inserir um elemento na cauda da lista.
+// Parâmetros: Referência da lista, elemento.
+// Retorno: --/--
+void adicionarElementoNaCauda(lista *li, int matricula, float mensalidade){
+	Lista *tmp;
+	lista aux;
+	
+	system("cls");
+	
+	tmp = (Lista*) malloc (sizeof(Lista));
+	tmp->matricula = matricula;
+	tmp->mensalidade = mensalidade;
+	tmp->prox = NULL;
+	if (isListaVazia(*li))
+		*li = tmp;
+	else{
+		aux = *li;
+		while (aux->prox != NULL)
+			aux = aux->prox;	
+		aux->prox = tmp;	
+	}
+	
+}
+
+
+// Objetivo: Verificar se uma matrícula informada já foi cadastrada.
+// Parâmetros: Lista, matrícula.
+// Retorno: 1(existe)(TRUE) ou 0(não existe)(FALSE).
+int verificarMatricula(lista li, int matricula){
+	
+	while (li != NULL){
+		if (li->matricula == matricula){
+			return 1;
+		}
+		li = li->prox;
+	}
+	
+	return 0;
+}
+// Objetivo: Retornar se a lista está vazia ou não. (1 - !vazia ou 0 - vazia);
+// Parâmetros: Referência da lista.
+// Retorno: 1 ou 0
+int isListaVazia (lista li){
+	return (li == NULL);
+}
+// Objetivo: Listar todos os elementos de uma lista.
+// Parâmetros: Referência da lista.
+// Retorno: --/--
+void listarElementosLista(lista li){
+	int i = 0;
+	
+	system("cls");
+	if (isListaVazia(li)){
+		printf("Nao foi possivel listar o(s) elemento(s) da lista, pois ela esta vazia!");
+	}
+	else{
+		(i == 0) ? printf("Elementos ->>") : printf("");
+		while (li != NULL){
+			printf("\n%4d%c Matricula: %7d  |  Mensalidade %.2f", i+1, -89, li->matricula, li->mensalidade);
+			li = li->prox;
+			i++;
+		}
+	}
+
+}
+
+// Objetivo: Adicionar um elemento ao topo da lista.
+// Parâmetros: Referência da lista, elemento a ser adicionado.
+// Retorno: --/--
+void adicionarElementoAoTopo(lista *li, int matricula, float mensalidade){
+	Lista *aux;	
+	
+	aux = (Lista*) malloc (sizeof(Lista));
+	aux->matricula = matricula;
+	aux->mensalidade = mensalidade;
+	
+	aux->prox = *li;
+	*li = aux;
+}
+// Objetivo: Inicializar a lista. (Fazer o elemento apontar pra NULL)
+// Parâmetros: Referência da lista.
+// Retorno: --/--
+void inicializarLista (lista *li){
+	*li = NULL;	
+}
+// Objetivo: Ler um número inteiro válido.
+// Parâmetros: Mensagem, endereço de onde o número será armazenado, limite mínimo e máximo.
+// Retorno: --/--
+void leValidaInt (char const *msg, int *num, int min, int max){
+	int ret;
+	
+	do{
+		do{
+			printf("%s",msg);
+			fflush(stdin);
+			ret = scanf("%d",num);
+			if (ret == 0){
+				printf("Favor digitar um numero.\n");
+				getch();
+			}			
+		}while (ret == 0);
+		if (*num < min || *num > max){
+			printf("Favor informar um numero dentro do intervalo(%d a %d).\n", min, max);
+		}
+	}while (*num < min || *num > max);
+}
+// Objetivo: Escrever na tela quantas vezes uma matrícula repetida aparece.
+// Parâmetros: Matrículas.
+// Retorno: --/--
+void mostraRepetidos(lista li){	
+	int qtd;
+	int i, j;
+	int *auxiliar;
+	int auxiliarBubblesort;
+	int achou;
+	
+	if (isListaVazia(li)){
+		printf("Nao foi possivel ordenar o(s) elemento(s) da lista, pois ela esta vazia!");
+		getch();
+	}
+	else{
+		qtd = getQtdElementos(li);
+		auxiliar = (int *) malloc (sizeof(int) * qtd);	
+		for (i = 0; i < qtd; i++){
+			auxiliar[i] = li->matricula;
+			li = li->prox;
+		}
+	
+		for (i = 0; i < qtd - 1; i++){
+			for (j = i + 1; j < qtd; j++){
+				if (auxiliar[i] < auxiliar[j]){
+					auxiliarBubblesort = auxiliar[i];
+					auxiliar[i] = auxiliar[j];
+					auxiliar[j] = auxiliarBubblesort;
+				}
+			}
+		}
+		
+		// auxiliar é um vetor que contém as matrículas ordenadas.
+		int achou = 0;
+		for (i = 0; i < qtd; i++){
+
+			if (auxiliar[i] == auxiliar[i+1]){
+				achou++;
+				if (achou == 1){
+					printf("\n\nMatricula repetida %5d\n",auxiliar[i]);
+				}
+			}			
+			if (auxiliar[i] != auxiliar[i+1] && achou != 0){
+				printf("Quantidade de vezes que se repetiu: %5d\n", achou);
+				achou = 0;
+			}
+		}
+	}
+	
+}
+// Objetivo: Retornar a quantidade de elementos de uma lista.
+// Parâmetros: Lista.
+// Retorno: Quantidade de elementos da lista.
+int getQtdElementos(lista li){
+	int i = 0;
+	
+	while (li != NULL){
+		li = li->prox;
+		i++;
+	}
+	
+	return i;
+	
+}
+	
+
+

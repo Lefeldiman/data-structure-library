@@ -1,0 +1,35 @@
+void inicializa(fila *F) 
+{   F->inicio = NULL;
+    F->final  = NULL;
+}
+
+int vazia(fila F) 
+{     return(F.inicio == NULL);
+}
+
+void enqueue(fila *F, pessoa nova)
+{   cel *temp;
+    temp  = (cel*)malloc(sizeof(cel));
+    temp -> esse = nova;
+    tmp->prox=NULL;
+    if (vazia(*F)) 
+	{  /* inicio==final==NULL */
+	   F->inicio=tmp;    F->final=tmp;
+	}
+	else 
+	{   F->final->prox=tmp;
+	    F->final=tmp;
+	}
+}
+
+pessoa dequeue(fila *F)
+ {  cel *temp;
+    pessoa retorno;
+	tmp = F->inicio->prox;
+	retorno = F->inicio->esse;
+	free(F->inicio);
+	F->inicio = tmp;
+	if (F->inicio == NULL) //Se Fila se tornou vazia
+	        F->final = NULL;
+	return(retorno);
+}

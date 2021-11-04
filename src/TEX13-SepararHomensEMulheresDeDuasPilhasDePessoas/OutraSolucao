@@ -1,0 +1,15 @@
+void RotQ5P1V2(pilha *P1 , pilha *P2)
+{      pilha Aux = NULL;     //  pilha Aux;   inicializa(&Aux);    
+       //empilhar P1 em Aux
+	   while(*P1 != NULL)  //while(!vazia(*P1)) 
+              push(&Aux,pop(P1);  
+       //empilhar P2 em Aux       
+       while(*P2 != NULL)  //while(!vazia(*P2)) 
+              push(&Aux,pop(P2);         
+       //empilhar mulheres em P1 e homens em P2
+       while(Aux != NULL)  //while(!vazia(Aux)) 
+              if((top(Aux)).sexo == 'F')
+                    push(P1,pop(&Aux));
+              else
+                    push(P2,pop(&Aux));    
+}    

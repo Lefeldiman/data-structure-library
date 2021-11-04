@@ -1,0 +1,58 @@
+/*
+Fazer um programa que gere 125 Nomes completos de pessoas, cada nome com 3 partes 
+(Primeiro, Meio e Sobrenome), a partir dos vetores: 
+   char Primeiro[5][20] = { "Pedro","Tiago","Ana","Bruno","Camila" }; 
+   char Meio[5][20] = { "Oliveira","Antunes","Ferreira","Santos","Cunha" }; 
+   char Sobrenome[5][20]= { "Cardoso","Silva","Azevedo","Monteiro","Soares" }; 
+   char NomeCompleto[125][60];
+Escrever na tela os 125 nomes completos na ordem gerada. 
+Escrever na tela os 125 nomes completos na ordem alfabética crescente. 
+Escrever na tela os 125 nomes completos na ordem alfabética decrescente.
+*/
+#include <stdio.h>
+#include <strings.h>
+int main()
+{//0) Criar Variáveis
+      char Primeiro[5][20] = { "Pedro","Tiago","Ana","Bruno","Camila" }; 
+      char Meio[5][20] = { "Oliveira","Antunes","Ferreira","Santos","Cunha" }; 
+      char Sobrenome[5][20]= { "Cardoso","Silva","Azevedo","Monteiro","Soares" }; 
+      char NomeCompleto[125][60], Aux[60] ;
+      int I, J, K, Ind=0, Varreduras;      
+ //1) Gerar e escrever na tela o vetor com 125 nomes completos
+      for(I=0; I<5; I++)
+            for(J=0; J<5; J++)
+                  for(K=0; K<5; K++)
+                  {       strcpy(NomeCompleto[Ind],Primeiro[I]);
+                          strcat(NomeCompleto[Ind]," ");
+                          strcat(NomeCompleto[Ind],Meio[J]);
+                          strcat(NomeCompleto[Ind]," ");
+                          strcat(NomeCompleto[Ind],Sobrenome[K]);
+                          Ind++;
+                  }                  
+      printf("Vetor com os 125 Nomes Completos gerados :\n\n");      
+      for(I=0; I<125; I++)
+             printf("Nome_Completo[%3d] = %s\n",I,NomeCompleto[I]);                                 
+      system("Pause");
+ //2) Ordenar CRESCENTE o vetor com 125 nomes completos
+      for(Varreduras=0; Varreduras<=123; Varreduras++)
+            for(I=0; I<=123; I++)  
+                 if(strcmp(NomeCompleto[I] , NomeCompleto[I+1]) > 0)
+                 {      strcpy(Aux,NomeCompleto[I]);
+                        strcpy(NomeCompleto[I],NomeCompleto[I+1]);
+                        strcpy(NomeCompleto[I+1],Aux); 
+                 }  
+ //3) Escrever o vetor com os 125 nomes completos Ordenados Crescente
+      printf("\n\nVetor com os 125 Nomes Completos ordenados Crescente :\n\n");      
+      for(I=0; I<125; I++)
+             printf("Nome_Completo[%3d] = %s\n",I,NomeCompleto[I]);  
+      system("Pause");                               
+ //4) Escrever os 125 nomes completos em Ordem Decrescente
+      printf("\n\nOs 125 Nomes Completos em Ordem Decrescente :\n\n");      
+      for(I=124; I>=0; I--)
+             printf("Nome_Completo[%3d] = %s\n",I,NomeCompleto[I]);       
+ //5) Finalização
+    printf("\n\n\nPressione qualquer TECLA para TERMINAR ...");  
+    getch();   return 0;  
+}            
+
+

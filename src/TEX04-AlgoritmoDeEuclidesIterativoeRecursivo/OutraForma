@@ -1,0 +1,103 @@
+/* Escreva subprogramas (uma função Iterativa, uma função Recursiva e 
+um procedimento) que calculem o MDC de dois inteiros usando o Algoritmo 
+de Euclides. Fazer também uma função Iterativa simples para o MDC, sem 
+usar o Algoritmo de Euclides. Faça um programa que leia e valide dois 
+inteiros positivos e escreva seu MDC quatro vezes, usando as rotinas 
+criadas. 
+
+Observação 1: Fazer e usar procedimento para Ler e Validar 2 inteiros 
+positivos. 
+
+Protótipos dos subprogramas a serem criados:
+ 
+void LerValidarDoisIntPos(int *N1, int *N2);
+int euclidesIterativo(int num1, int num2);
+void ProcEuclidesIterativo(int num1, int num2, int *Resul);
+int euclidesRecursivo(int num1, int num2);
+int MDCSimples(int A, int B);
+ 
+Observação 2: Para o algoritmo de Euclides, basear-se na Apresentação 
+"Recursividade incluindo Pesquisa Binária", no FTP e no Moodle.     */
+#include <stdio.h>
+void LerValidarDoisIntPos(int *N1, int *N2);
+int euclidesIterativo(int num1, int num2);
+void ProcEuclidesIterativo(int num1, int num2, int *Resul);
+int euclidesRecursivo(int num1, int num2);
+int MDCSimples(int A, int B);
+
+int main(void)
+{ int num1, num2, Aux;
+  puts("Leitura de 2 numeros inteiros positivos ...\n");
+  LerValidarDoisIntPos(&num1 , &num2);
+  printf("\nMDC(%d,%d)\n",num1,num2);
+  printf("  Com Funcao Iterativa Euclides: %d\n",euclidesIterativo(num1,num2));
+  printf("  Com Funcao Recursiva Euclides: %d\n",euclidesRecursivo(num1,num2));
+  ProcEuclidesIterativo(num1,num2,&Aux);
+  printf("  Com Procedimento Iterativo Euclides: %d\n",Aux);
+  printf("  Com Funcao Iterativa Simples:  %d\n",MDCSimples(num1,num2));
+  
+  printf("\n\nDigite uma TECLA para TERMINAR o programa ... ");
+  getch();  return 0;
+}
+/*
+Objetivo: ler e validar dois numeros inteiros positivos
+Parâmetro: ponteiros para ambos os valores a serem lidos
+Retorno:   ---
+*/
+void LerValidarDoisIntPos(int *N1, int *N2)
+{    do
+     {  printf("\n\nEntre com 2 nrs inteiros positivos : ");
+        scanf("%d %d",N1,N2);
+        if((*N1<1)||(*N2<1))
+             printf("ERRO !!! Valor(es) Invalido(s). Tente novamente ...");
+     }while((*N1<1)||(*N2<1));
+}
+/*
+Objetivo:  calcular o MDC de dois numeros, usando o algoritmo 
+           de Euclides, iterativamente.
+Parametro:  numeros a terem o MDC calculado
+Retorno: MDC dos numeros
+*/
+int euclidesIterativo(int num1, int num2)
+{   int resto = num1%num2;    
+    while(resto)
+    {    num1=num2;
+         num2=resto;
+         resto=num1%num2;
+    }
+    return num2;    
+}
+
+void ProcEuclidesIterativo(int num1, int num2, int *Resul)
+{   int resto = num1%num2;    
+    while(resto)
+    {    num1=num2;
+         num2=resto;
+         resto=num1%num2;
+    }
+    *Resul = num2;    
+}
+/*
+Objetivo:  calcular o MDC de dois numeros, usando o algoritmo 
+           de Euclides, recursivamente.
+Parametro:  numeros a terem o MDC calculado
+Retorno: MDC dos numeros
+*/
+int euclidesRecursivo(int num1, int num2)
+{   if(num1%num2 == 0)
+          return num2;
+    else
+          return euclidesRecursivo(num2,num1%num2);
+}
+/*
+Objetivo:  calcular o MDC de dois numeros, iterativamente,
+           sem usar o algoritmo de Euclides.
+Parametro: números a terem o MDC calculado
+Retorno:   MDC dos números
+*/
+int MDCSimples(int A, int B)
+{  int Resul=(A<B)?A:B;
+   while((A%Resul != 0)||(B%Resul != 0))
+          Resul--;
+   return Resul;
+}       
