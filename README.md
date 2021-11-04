@@ -1,4 +1,23 @@
-# ✨ Startup Nextjs Theme ✨
+<h1 align=center>Data Structure Library - Estrutura de Dados e Arquivos | <a target="_blank" href="https://leontech.io" rel="nofollow">LeonTech.io</a> | <a  target="_blank" href="https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Fdemo.gethugothemes.com%2Fgeeky%2F&tab=desktop">Page Speed (85%)</a></h1>
+
+<p align=center>
+  <a href="https://github.com/gohugoio/hugo/releases/tag/v0.83.1" alt="Contributors">
+    <img src="https://img.shields.io/static/v1?label=min-HUGO-version&message=0.83.1&color=f00&logo=hugo" />
+  </a>
+
+  <a href="https://github.com/gethugothemes/geeky-hugo/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/gethugothemes/geeky-hugo" alt="license"></a>
+
+  <img src="https://img.shields.io/github/languages/code-size/gethugothemes/geeky-hugo" alt="code size">
+
+  <a href="https://github.com/gethugothemes/geeky-hugo/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/gethugothemes/geeky-hugo" alt="contributors"></a>
+
+  <a href="https://twitter.com/intent/follow?screen_name=gethugothemes">
+    <img src="https://img.shields.io/twitter/follow/gethugothemes?style=social&logo=twitter"
+      alt="follow on Twitter"></a>
+</p>
+
 
 This is Stackbit's "Startup" theme built with [Next.js](https://nextjs.org/) and
 powered by content stored in files.
