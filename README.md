@@ -3,12 +3,6 @@
 
 This is an repository content source code in C.
 
-Click the below to see the source code to use in yours study :
-
-<p align="center">
-  <a href="https://github.com/Lefeldiman/data-structure-library/tree/master/src"><img alt="See the Code" src="https://assets.stackbit.com/badge/create-with-stackbit.svg"/></a>
-</p>
-
 
 ## Quick Start 🏎
 
